@@ -5,15 +5,16 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-import com.mysql.jdbc.Blob;
-
 @Entity
+@NamedQuery(name = "findAll", query = "select r from Recipe as r")
 public class Recipe {
 
 	@Id
@@ -23,11 +24,11 @@ public class Recipe {
 	private String description;
 	private String time;
 
-	@OneToMany(mappedBy = "recipe", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<Ingredient> ingredients = new ArrayList<>();
 
 	@Lob
-	private byte[] image;
+	private String image;
 
 	public int getId() {
 		return id;
@@ -69,17 +70,24 @@ public class Recipe {
 		this.ingredients = ingredients;
 	}
 
-	public byte[] getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
 	public void addIngredient(Ingredient ingredient) {
 		ingredients.add(ingredient);
 		ingredient.setRecipe(this);
+	}
+
+	@Override
+	public String toString() {
+		return "Recipe [id=" + id + ", name=" + name + ", description="
+				+ description + ", time=" + time + ", ingredients="
+				+ ingredients + ", image=" + image + "]";
 	}
 
 }

@@ -1,12 +1,13 @@
 package be.recepten.services;
 
-import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import be.recepten.entities.Ingredient;
@@ -14,32 +15,32 @@ import be.recepten.entities.Recipe;
 
 public class RecipeServiceImpl implements RecipeService {
 
-	private EntityManagerFactory emf;
+	private EntityManager em;
 
-	@PersistenceUnit
-	public void setEntityManagerFactory(EntityManagerFactory emf) {
-		this.emf = emf;
+	@Autowired
+	private HelperService service;
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager em) {
+		this.em = em;
 	}
 
+	@Transactional
 	@Override
 	public void addRecipe(String name, String[] ingredients,
-			String description, String time, MultipartFile image) {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
+			String description, String time, MultipartFile file) {
 
+		// MultipartFile omzetten naar een Base64 encoded String
+		byte[] image = service.MultipartFileToByteArray(file);
+		String imageString = service.Base64EncodeToString(image);
+
+		// Recipe object aanmaken en opvullen met gegevens uit het forumulier
+		// (new_recipe.jsp)
 		Recipe recipe = new Recipe();
 		recipe.setName(name);
 		recipe.setDescription(description);
 		recipe.setTime(time);
-
-		byte[] bFile;
-		try {
-			bFile = image.getBytes();
-			recipe.setImage(bFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		recipe.setImage(imageString);
 
 		for (String s : ingredients) {
 			Ingredient ing = new Ingredient();
@@ -48,27 +49,37 @@ public class RecipeServiceImpl implements RecipeService {
 			recipe.addIngredient(ing);
 		}
 
+		// Recipe object wegschrijven naar de database
 		em.persist(recipe);
-
-		tx.commit();
-		em.close();
 	}
 
+	@Transactional
 	@Override
 	public Recipe findRecipe(int id) {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
 
-		Recipe recipe = em.find(Recipe.class, 1);
-
-		tx.commit();
-		em.close();
+		Recipe recipe = em.find(Recipe.class, id);
 
 		if (recipe == null) {
 			return null;
 		} else {
 			return recipe;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
+	public List<Recipe> findAllRecipes() {
+
+		// findAll query uitvoeren om al de recepten in een lijst te steken
+		// (De query String wordt gedefinieerd in de Recipe entity)
+		Query query = em.createNamedQuery("findAll");
+		List<Recipe> recipes = (List<Recipe>) query.getResultList();
+
+		if (recipes == null) {
+			return null;
+		} else {
+			return recipes;
 		}
 	}
 

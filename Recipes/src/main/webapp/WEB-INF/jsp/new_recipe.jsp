@@ -11,7 +11,7 @@
 		var newdiv = document.createElement('div');
 		newdiv.innerHTML = "Ingredient "
 				+ (counter + 1)
-				+ ' <br><input type="text" name="ingredients[]" placeholder="Ingredient" autofocus>';
+				+ ' <br><input type="text" name="ingredients[]" placeholder="Ingredient">';
 		document.getElementById(divName).appendChild(newdiv);
 		counter++;
 	}
@@ -30,8 +30,8 @@
 		</div>
 
 		<input type="button" value="Add ingredient"
-			onClick="addInput('ingredients');"><br />
-		<br /> <input type="file" name="image" /> <input type="submit"
+			onClick="addInput('ingredients');"><br /> <br /> <input
+			type="file" name="image" /> <input type="submit"
 			value="Submit Recipe">
 	</form>
 

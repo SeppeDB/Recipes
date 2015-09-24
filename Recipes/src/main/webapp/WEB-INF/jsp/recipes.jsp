@@ -8,11 +8,22 @@
 <title>Recipe List</title>
 </head>
 <body>
-	${recipe.name}
-	<br /> ${recipe.id}
-	<br /> ${recipe.image}
+	<form method="POST">
+		<input type="submit" value="Add Recipe" />
+	</form>
+
 	<br />
-	
-		<img src="images/${imagename}">
+	<table style="width: 80%" border="1">
+		<c:forEach var="recipes" items="${recipes}">
+			<tr>
+				<td><c:out value="${recipes.name}" /></td>
+				<td><c:out value="${recipes.description}" /></td>
+				<td><c:out value="${recipes.time}" /></td>
+				<td><img src="data:image/png;base64, ${recipes.image} "
+					height="100px" width="100px" /></td>
+			</tr>
+		</c:forEach>
+	</table>
+
 </body>
 </html>
