@@ -20,6 +20,7 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
 	private String name;
 	private String description;
 	private String time;

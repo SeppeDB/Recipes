@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,6 +82,39 @@ public class RecipeServiceImpl implements RecipeService {
 		} else {
 			return recipes;
 		}
+	}
+
+	@Override
+	public List<Recipe> findAllRecipesBy(String name, String description,
+			String time) {
+
+		TypedQuery<Recipe> query = em
+				.createQuery(
+						"SELECT r FROM Recipe as r WHERE r.name LIKE :name AND r.description LIKE :description AND r.time=:time",
+						Recipe.class);
+		query.setParameter("name", "%" + name + "%");
+		query.setParameter("description", "%" + description + "%");
+		query.setParameter("time", time);
+
+		List<Recipe> recipes = (List<Recipe>) query.getResultList();
+
+		return recipes;
+	}
+
+	// Niet gebruikte methode. Vanwege tijdsgebrek is het zoeken op ingredienten
+	// (nog) niet geimplementeerd
+	@Override
+	public List<Recipe> findAllRecipesByIngredient(String ingredient) {
+
+		TypedQuery<Recipe> query = em
+				.createQuery(
+						"SELECT r FROM Recipe r join r.ingredients i where i.name LIKE :ingredient",
+						Recipe.class);
+		query.setParameter("ingredient", "%" + ingredient + "%");
+
+		List<Recipe> recipes = (List<Recipe>) query.getResultList();
+
+		return recipes;
 	}
 
 }

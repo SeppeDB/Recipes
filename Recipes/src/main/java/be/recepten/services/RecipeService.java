@@ -17,4 +17,10 @@ public interface RecipeService {
 
 	// Al de recepten uit de database halen
 	List<Recipe> findAllRecipes();
+
+	// Al de recepten uit de database halen op basis van bepaalde criteria
+	List<Recipe> findAllRecipesBy(String name, String description, String time);
+
+	// Al de recepten uit de database halen op basis van ingredienten
+	List<Recipe> findAllRecipesByIngredient(String ingredient);
 }
