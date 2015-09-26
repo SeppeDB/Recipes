@@ -28,8 +28,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Transactional
 	@Override
-	public void addRecipe(String name, String[] ingredients,
-			String description, String time, MultipartFile file) {
+	public void addRecipe(String name, String[] ingredients, String description, String time, MultipartFile file) {
 
 		// MultipartFile omzetten naar een Base64 encoded String
 		byte[] image = service.MultipartFileToByteArray(file);
@@ -85,15 +84,18 @@ public class RecipeServiceImpl implements RecipeService {
 	}
 
 	@Override
-	public List<Recipe> findAllRecipesBy(String name, String description,
-			String time) {
+	public List<Recipe> findAllRecipesBy(String name, String description, String time) {
 
-		TypedQuery<Recipe> query = em
-				.createQuery(
-						"SELECT r FROM Recipe as r WHERE r.name LIKE :name AND r.description LIKE :description AND r.time=:time",
-						Recipe.class);
-		query.setParameter("name", "%" + name + "%");
-		query.setParameter("description", "%" + description + "%");
+		name = service.emptyStringToWildcard(name);
+		description = service.emptyStringToWildcard(description);
+		time = service.emptyStringToWildcard(time);
+
+		TypedQuery<Recipe> query = em.createQuery(
+				"SELECT r FROM Recipe as r WHERE r.name LIKE :name AND r.description LIKE :description AND r.time LIKE :time",
+				Recipe.class);
+
+		query.setParameter("name", name);
+		query.setParameter("description", description);
 		query.setParameter("time", time);
 
 		List<Recipe> recipes = (List<Recipe>) query.getResultList();
@@ -107,9 +109,7 @@ public class RecipeServiceImpl implements RecipeService {
 	public List<Recipe> findAllRecipesByIngredient(String ingredient) {
 
 		TypedQuery<Recipe> query = em
-				.createQuery(
-						"SELECT r FROM Recipe r join r.ingredients i where i.name LIKE :ingredient",
-						Recipe.class);
+				.createQuery("SELECT r FROM Recipe r join r.ingredients i where i.name LIKE :ingredient", Recipe.class);
 		query.setParameter("ingredient", "%" + ingredient + "%");
 
 		List<Recipe> recipes = (List<Recipe>) query.getResultList();

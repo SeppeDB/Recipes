@@ -30,4 +30,16 @@ public class HelperService {
 		return encString;
 	}
 
+	//Lege string omzetten in een jpql wildcard
+	public String emptyStringToWildcard(String string) {
+
+		if (string.equals("")) {
+			string = "%%";
+		} else {
+			string = "%" + string + "%";
+		}
+
+		return string;
+	}
+
 }

@@ -8,9 +8,6 @@
 <title>Recipe List</title>
 </head>
 <body>
-	<form method="POST">
-		<input type="submit" value="Add Recipe" />
-	</form>
 	
 	<form method="GET">
 	Search by: <br/>
@@ -33,6 +30,10 @@
 			</tr>
 		</c:forEach>
 	</table>
+
+	<form method="POST">
+		<input type="submit" value="Add Recipe" />
+	</form>
 
 </body>
 </html>

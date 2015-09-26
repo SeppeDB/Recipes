@@ -14,8 +14,7 @@
 	<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/recipes" />
-		<property name="username" value="guest" />
-		<property name="password" value="password" />
+		<property name="username" value="root" />
 	</bean>
 
 	<bean id="emf"
