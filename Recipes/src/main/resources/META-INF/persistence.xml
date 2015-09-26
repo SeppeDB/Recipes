@@ -7,7 +7,7 @@
 	<persistence-unit name="recipes" transaction-type="RESOURCE_LOCAL">
 		<properties>
 			<property name="javax.persistence.schema-generation.database.action"
-				value="none" />
+				value="drop-and-create" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.show_sql" value="true" />
 		</properties>

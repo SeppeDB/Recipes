@@ -8,7 +8,6 @@
 <script type="text/javascript">
 	var counter = 1;
 	function addInput(divName) {
-		var counter = 1;
 		var newdiv = document.createElement('div');
 		newdiv.innerHTML = "Ingredient " + (counter + 1)
 				+ ' <input type="text" name="ingredients[]" >';
@@ -21,11 +20,10 @@
 <body>
 
 	<form method="POST" enctype="multipart/form-data">
-		Name:<input type="text" name="name" placeholder="Name Recipe"
-			value="${recipeForm.name}"><br /> Description:<input
-			type="text" name="description" value="${recipeForm.description}"><br />
-		Preparation time:<input type="time" name="time" value="${recipeForm.time}">
-		<br /> <br />
+		Name:<input type="text" name="name" placeholder="Name Recipe" value="${recipeForm.name}"><br />
+		Description:<input type="text" name="description" value="${recipeForm.description}"><br />
+<!-- 		"input type time" only has a special input field in chrome -->
+		Preparation time:<input type="time" name="time"	value="${recipeForm.time}"> <br /> <br />
 
 		<div id="ingredients">
 			Ingredient 1:<input type="text" name="ingredients[]"

@@ -11,6 +11,7 @@
 	<mvc:annotation-driven />
 	<tx:annotation-driven transaction-manager="tm" />
 
+	<!-- Needs to be changed to fit local settings -->
 	<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/recipes" />
@@ -39,8 +40,8 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	<bean id="recipeService" class="be.recepten.services.RecipeServiceImpl" />
-	<bean id="helperService" class="be.recepten.services.HelperService" />
+	<bean id="recipeService" class="be.recipes.services.RecipeServiceImpl" />
+	<bean id="helperService" class="be.recipes.services.HelperService" />
 
 	<!-- Form Upload -->
 	<bean id="multipartResolver"
