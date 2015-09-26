@@ -1,10 +1,10 @@
-package be.recepten.services;
+package be.recipes.services;
 
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import be.recepten.entities.Recipe;
+import be.recipes.entities.Recipe;
 
 public interface RecipeService {
 

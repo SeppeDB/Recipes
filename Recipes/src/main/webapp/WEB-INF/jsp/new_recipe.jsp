@@ -24,7 +24,7 @@
 		Name:<input type="text" name="name" placeholder="Name Recipe"
 			value="${recipeForm.name}"><br /> Description:<input
 			type="text" name="description" value="${recipeForm.description}"><br />
-		Time:<input type="time" name="time" value="${recipeForm.time}">
+		Preparation time:<input type="time" name="time" value="${recipeForm.time}">
 		<br /> <br />
 
 		<div id="ingredients">

@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import be.recepten.entities.Recipe;
-import be.recepten.services.RecipeService;
+import be.recipes.entities.Recipe;
+import be.recipes.services.RecipeService;
 
 @Controller
 @RequestMapping("/recipes")
-public class RecipeListController {
+public class RecipeViewController {
 
 	@Autowired
 	RecipeService service;
@@ -37,18 +37,23 @@ public class RecipeListController {
 
 	@RequestMapping(method = RequestMethod.GET, params = "filter")
 	public ModelAndView handleSearch(@RequestParam Map<String, String> params) {
-		System.out.println("PARAMS: " + params);
-		System.out.println(params.get("name"));
 		String name = params.get("name");
 		String desc = params.get("desc");
 		String time = params.get("time");
-		
-		System.out.println(time);
 
-		List<Recipe> recipes = new ArrayList<Recipe>(service.findAllRecipesBy(
-				name, desc, time));
+		List<Recipe> recipes = new ArrayList<Recipe>(service.findAllRecipesBy(name, desc, time));
 
 		return new ModelAndView("recipes", "recipes", recipes);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, params = "id")
+	public ModelAndView handleGet(@RequestParam Map<String, String> params) {
+
+		int id = Integer.parseInt(params.get("id"));
+
+		Recipe recipe = service.findRecipe(id);
+
+		return new ModelAndView("recipe", "recipe", recipe);
 	}
 
 }

@@ -8,25 +8,30 @@
 <title>Recipe List</title>
 </head>
 <body>
-	
+
 	<form method="GET">
-	Search by: <br/>
-		Name: <input type="text" name="name" />
-		Description: <input type="text" name="desc" />
-		Max time: <input type="time" name="time" />
-		<input type="submit" name="filter" value="Search" />
+		Search by: <br /> Name: <input type="text" name="name" />
+		Description: <input type="text" name="desc" /> Max time: <input
+			type="time" name="time" /> <input type="submit" name="filter"
+			value="Search" />
 	</form>
 
 	<br />
 	<table style="width: 80%" border="1">
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Preparation Time</th>
+			<th>Image</th>
+		</tr>
 		<c:forEach var="recipes" items="${recipes}">
 			<tr>
-				<td><c:out value="${recipes.name}" /></td>
+				<td><a href="?id=${recipes.id}"><c:out
+							value="${recipes.name}" /></a></td>
 				<td><c:out value="${recipes.description}" /></td>
 				<td><c:out value="${recipes.time}" /></td>
 				<td><img src="data:image/png;base64, ${recipes.image} "
 					height="75px" width="75px" /></td>
-				<td><c:out value="${recipes.ingredients}"/></td>
 			</tr>
 		</c:forEach>
 	</table>

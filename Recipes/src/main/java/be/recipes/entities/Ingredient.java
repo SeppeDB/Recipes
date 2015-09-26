@@ -1,4 +1,4 @@
-package be.recepten.entities;
+package be.recipes.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,7 +43,7 @@ public class Ingredient {
 
 	@Override
 	public String toString() {
-		return "Ingredient [id=" + id + ", name=" + name;
+		return name;
 	}
 
 }
